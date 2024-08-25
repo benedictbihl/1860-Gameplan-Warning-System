@@ -1,0 +1,27 @@
+name: Daily Match Check
+
+on:
+  schedule:
+    - cron: "0 18 * * *" # 20:00 German Time (CET/CEST) => 18:00 UTC
+
+jobs:
+  check-match:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "20.17"
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run daily match check script
+        env:
+          MAILERSEND_API_KEY: ${{ secrets.MAILERSEND_API_KEY }}
+          RECIPIENT_EMAIL: ${{ secrets.RECIPIENT_EMAIL }}
+        run: node dailyMatchCheck.js
