@@ -12,18 +12,17 @@ export async function sendReminderEmail(matchDateTime) {
   const recipientEmail = process.env.RECIPIENT_EMAIL;
 
   const matchTime = matchDateTime.format("HH:mm");
-  // subtract 30 minutes from match time to schedule reminder
-  const reminderTime = matchDateTime.subtract(30, "minutes");
+  const reminderTime = matchDateTime.add(60, "minutes");
 
   const emailTemplate = `
     <html>
     <body>
       <div style="background-color: #005baa; color: #ffffff; padding: 20px; border-radius: 8px 8px 0 0;">
-        <h1>⚠️ Erinnerung: TSV 1860 München spielt in 30 Minuten! ⚠️</h1>
+        <h1>⚠️ Erinnerung: TSV 1860 München Abpfiff in 30 Minuten! ⚠️</h1>
       </div>
       <div style="padding: 20px;">
-        <p style="font-size: 16px;">Der Anpfiff ist um <strong>${matchTime}</strong> 🕒</p>
-        <p style="font-size: 16px; color: #005baa;">Jetzt ist die Zeit, sich vorzubereiten! 💙🤍</p>
+        <p style="font-size: 16px;">Der Anpfiff war um <strong>${matchTime}</strong> 🕒</p>
+        <p style="font-size: 16px; color: #005baa;">Jetzt ist die Zeit, sich auf besoffene Fans vorzubereiten! 💙🤍</p>
       </div>
       <div style="background-color: #005baa; color: #ffffff; padding: 10px; border-radius: 0 0 8px 8px;">
         <p style="font-size: 14px;">Auf geht’s, Löwen! 🦁⚽</p>

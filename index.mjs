@@ -12,6 +12,7 @@ dayjs.extend(utc);
 dayjs.extend(timezone);
 dayjs.extend(isSameOrBefore);
 
+//{id}/{weeksPast}/{weeksAhead}
 const apiURL = "https://api.openligadb.de/getmatchesbyteamid/125/0/1";
 
 async function checkForMatch() {
@@ -28,8 +29,9 @@ async function checkForMatch() {
     const matchDateTime = dayjs(firstMatch.matchDateTime).tz("Europe/Berlin");
     const tomorrow = dayjs().tz("Europe/Berlin").add(1, "day").startOf("day");
     const isMatchTomorrow = matchDateTime.isSame(tomorrow, "day");
+    const isHomeGame = firstMatch.team1.teamId === 125;
 
-    if (isMatchTomorrow) {
+    if (isMatchTomorrow && isHomeGame) {
       console.log("Match found for tomorrow. Sending email...");
       await sendEmail(matchDateTime);
       await sendReminderEmail(matchDateTime);
@@ -63,7 +65,7 @@ async function sendEmail(matchDateTime) {
     <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 8px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
         <div style="background-color: #005baa; color: #ffffff; padding: 20px; border-radius: 8px 8px 0 0;">
             <h1>🚨 Spielalarm! 🚨</h1>
-            <h2>TSV 1860 München</h2>
+            <h2>TSV 1860 München Heimspiel</h2>
         </div>
         <div style="padding: 20px;">
             <p style="font-size: 18px;">Morgen, am ${matchDay} ist es soweit! 🎉</p>
